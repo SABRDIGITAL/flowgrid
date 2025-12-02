@@ -246,11 +246,8 @@
       justify-content: center;
     }
     .hero-img::after {
-      content: "Replace with photo";
-      color: rgba(241, 245, 249, 0.75);
-      font-size: 0.7rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      content: "";
+      /* hide "Replace with photo" label now that real photos are used */
     }
 
     @media (max-width: 1024px) {
@@ -493,11 +490,13 @@
   </aside>
 
   <main id="top" class="pt-24 pb-20 max-w-7xl mx-auto px-5">
-    <!-- HERO (NEW) -->
+    <!-- HERO (NEW) WITH PHOTOS -->
     <section class="hero reveal" data-reveal>
       <div class="hero-inner">
-        <!-- left image placeholder -->
-        <div class="hero-img"></div>
+        <!-- left image -->
+        <div class="hero-img">
+          <img src="file left.png" class="h-full w-full object-cover" />
+        </div>
 
         <!-- center text -->
         <div class="flex flex-col items-center text-center gap-5">
@@ -524,8 +523,10 @@
           </div>
         </div>
 
-        <!-- right image placeholder -->
-        <div class="hero-img"></div>
+        <!-- right image -->
+        <div class="hero-img">
+          <img src="file right.png" class="h-full w-full object-cover" />
+        </div>
       </div>
     </section>
 
@@ -550,7 +551,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <p class="service-tag mb-1">Emergencies</p>
-              <p class="font-semibold mb-1">Leaks & burst pipes</p>
+              <p class="font-semibold mb-1">Leaks &amp; burst pipes</p>
               <p class="text-sm text-slate-600 max-w-xl">
                 Fast shut-off, diagnosis and repair for leaks, bursts and blockages — with photos logged for insurance if needed.
               </p>
@@ -565,7 +566,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <p class="service-tag mb-1">Heating</p>
-              <p class="font-semibold mb-1">Boilers & radiators</p>
+              <p class="font-semibold mb-1">Boilers &amp; radiators</p>
               <p class="text-sm text-slate-600 max-w-xl">
                 Servicing, diagnostics and installs, plus radiator balancing so every room actually warms up.
               </p>
@@ -580,7 +581,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <p class="service-tag mb-1">Installations</p>
-              <p class="font-semibold mb-1">Bathrooms & upgrades</p>
+              <p class="font-semibold mb-1">Bathrooms &amp; upgrades</p>
               <p class="text-sm text-slate-600 max-w-xl">
                 Modern bathrooms, showers and upgrades with pipework, fixtures and finishing handled in one plan.
               </p>
@@ -612,7 +613,7 @@
       <div class="timeline text-slate-700">
         <div class="timeline-step">
           <div class="timeline-dot"></div>
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 1 · Quick call & photos</p>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 1 · Quick call &amp; photos</p>
           <p class="font-semibold">Tell us what’s going on.</p>
           <p class="mt-1 text-sm text-slate-600 max-w-2xl">
             A short call and a few clear photos let us give realistic options and a price range before we arrive.
@@ -630,7 +631,7 @@
 
         <div class="timeline-step">
           <div class="timeline-dot"></div>
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 3 · Plan & price</p>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 3 · Plan &amp; price</p>
           <p class="font-semibold">We confirm everything on site.</p>
           <p class="mt-1 text-sm text-slate-600 max-w-2xl">
             Once we’ve seen it in person we confirm the work and final price before any big changes happen.
@@ -669,7 +670,7 @@
           <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
             Most common call-out
           </p>
-          <p class="font-semibold text-lg">Leak & blockage visit</p>
+          <p class="font-semibold text-lg">Leak &amp; blockage visit</p>
           <p class="text-3xl font-semibold mt-2">£95–£145</p>
           <p class="text-[0.75rem] text-slate-500 mt-1">Typical final invoice</p>
           <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
@@ -683,7 +684,7 @@
           <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
             Annual essential
           </p>
-          <p class="font-semibold text-lg">Boiler service & safety check</p>
+          <p class="font-semibold text-lg">Boiler service &amp; safety check</p>
           <p class="text-3xl font-semibold mt-2">£80–£120</p>
           <p class="text-[0.75rem] text-slate-500 mt-1">Per boiler</p>
           <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
@@ -697,12 +698,12 @@
           <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
             Planned projects
           </p>
-          <p class="font-semibold text-lg">New boiler & system upgrade</p>
+          <p class="font-semibold text-lg">New boiler &amp; system upgrade</p>
           <p class="text-3xl font-semibold mt-2">£1,900+</p>
           <p class="text-[0.75rem] text-slate-500 mt-1">All-in estimate</p>
           <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
             <li>• A-rated boiler with warranty</li>
-            <li>• Smart controls & radiator check</li>
+            <li>• Smart controls &amp; radiator check</li>
             <li>• Clear staged payments, no pressure selling</li>
           </ul>
         </div>
@@ -839,10 +840,10 @@
 
   <script>
     // header shadow
-    const header = document.querySelector("header");
+    const headerEl = document.querySelector("header");
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 18) header.classList.add("scrolled");
-      else header.classList.remove("scrolled");
+      if (window.scrollY > 18) headerEl.classList.add("scrolled");
+      else headerEl.classList.remove("scrolled");
     });
 
     // mobile menu
@@ -867,8 +868,6 @@
 
     // reveal + underline / glow on scroll
     const revealEls = document.querySelectorAll("[data-reveal]");
-    const underlineEls = document.querySelectorAll("[data-underline]");
-    const glowEls = document.querySelectorAll("[data-glow]");
 
     const observer = new IntersectionObserver(
       entries => {
