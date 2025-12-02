@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FlowGrid Plumbing & Heating — Trades Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --fg-pearl: #fafcff;
+      --fg-ink: #050816;
+      --fg-soft: #4b5563;
+      --fg-line: rgba(148, 163, 184, 0.45);
+      --fg-green: #45ff9d;
+      --fg-blue: #3bc7ff;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+      background:
+        radial-gradient(circle at 0 0, #ffffff 0, #f2f7ff 40%, #e5f1ff 100%);
+      color: var(--fg-ink);
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      backdrop-filter: blur(18px);
+      background: rgba(250, 252, 255, 0.95);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease,
+        background 0.2s ease;
+    }
+    header.scrolled {
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.16);
+      border-color: rgba(203, 213, 225, 0.95);
+      background: rgba(250, 252, 255, 0.98);
+    }
+
+    .logo-square {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #020617, #111827);
+      color: #a5f3fc;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.16em;
+    }
+
+    .brand-main {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .brand-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .nav-link {
+      position: relative;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.35rem;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--fg-green), var(--fg-blue));
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .hamburger-line {
+      width: 18px;
+      height: 2px;
+      border-radius: 4px;
+      background: #0f172a;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .hamburger.open .line1 {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .hamburger.open .line2 {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+
+    /* MOBILE MENU */
+    .menu-panel {
+      position: fixed;
+      inset: 0;
+      right: auto;
+      width: 260px;
+      background: #020617;
+      color: #e5e7eb;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(.19,1,.22,1);
+      z-index: 40;
+      padding: 1.5rem 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 18px 0 50px rgba(15, 23, 42, 0.8);
+    }
+    .menu-panel.open {
+      transform: translateX(0);
+    }
+    .menu-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.85);
+    }
+
+    /* HERO – NO BOX, CENTER TEXT, 2 IMAGES */
+    .hero {
+      position: relative;
+      padding: 4.5rem 0 4rem;
+      overflow: hidden;
+    }
+
+    /* pipe-flow background (#3) */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(
+          to right,
+          rgba(148, 163, 184, 0.16) 1px,
+          transparent 1px
+        );
+      background-size: 120px 1px;
+      opacity: 0.4;
+      mix-blend-mode: soft-light;
+      transform: translateX(0);
+      animation: pipesFlow 18s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes pipesFlow {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-120px); }
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.1fr) minmax(0, 0.8fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+      }
+    }
+
+    .hero-heading {
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: clamp(2.4rem, 3.4vw, 3.1rem);
+      text-align: center;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      text-align: center;
+      color: var(--fg-soft);
+      max-width: 30rem;
+      margin-inline: auto;
+    }
+
+    .btn-main {
+      border-radius: 999px;
+      padding: 0.85rem 1.8rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--fg-green), var(--fg-blue));
+      color: #02131a;
+      box-shadow:
+        0 18px 45px rgba(59, 130, 246, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.95);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+    .btn-main:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow:
+        0 22px 60px rgba(59, 130, 246, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 1);
+    }
+
+    .hero-stats {
+      font-size: 0.78rem;
+      color: #6b7280;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      margin-top: 1rem;
+    }
+    .hero-stats span strong {
+      color: #059669;
+      font-weight: 600;
+    }
+
+    /* image placeholders – tall, clean, no boxes */
+    .hero-img {
+      position: relative;
+      aspect-ratio: 3/5;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 0 0, rgba(99, 102, 241, 0.28), transparent 55%),
+        linear-gradient(145deg, #020617, #111827);
+      box-shadow:
+        0 26px 70px rgba(15, 23, 42, 0.85),
+        0 0 0 1px rgba(15, 23, 42, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-img::after {
+      content: "Replace with photo";
+      color: rgba(241, 245, 249, 0.75);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-img {
+        max-width: 260px;
+        margin-inline: auto;
+      }
+    }
+
+    /* SECTION TITLES – underline + glow (#1, #7) */
+    .section-label {
+      font-size: 0.74rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .section-title-wrap {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 2.2vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .section-underline {
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--fg-green), var(--fg-blue));
+      box-shadow: 0 0 0 rgba(59, 130, 246, 0.0);
+      transition: width 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .section-underline.visible {
+      width: 88px;
+      box-shadow: 0 0 18px rgba(59, 130, 246, 0.55);
+    }
+
+    .section-glow {
+      position: absolute;
+      inset: -40%;
+      pointer-events: none;
+      border-radius: 999px;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 50% 100%, rgba(69, 255, 157, 0.35), transparent 70%);
+      filter: blur(14px);
+      transition: opacity 0.45s ease;
+    }
+    .section-glow.visible {
+      opacity: 1;
+    }
+
+    /* REVEAL ON SCROLL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 0.7s cubic-bezier(.19,1,.22,1),
+        transform 0.7s cubic-bezier(.19,1,.22,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SERVICES ROWS – clean, no cards */
+    .service-row {
+      border-bottom: 1px solid var(--fg-line);
+      padding: 1.3rem 0;
+      font-size: 0.88rem;
+    }
+    .service-row:first-child {
+      border-top: 1px solid var(--fg-line);
+    }
+    .service-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      padding-left: 1.7rem;
+      font-size: 0.86rem;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.4rem;
+      top: 0.4rem;
+      bottom: 0.4rem;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--fg-green), var(--fg-blue));
+      opacity: 0.9;
+    }
+    .timeline-step {
+      position: relative;
+      margin-bottom: 1.7rem;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -0.65rem;
+      top: 0.1rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #ffffff, var(--fg-green));
+      box-shadow:
+        0 0 0 4px rgba(69, 255, 157, 0.3),
+        0 0 18px rgba(59, 130, 246, 0.45);
+    }
+
+    /* FAQ */
+    .faq-row {
+      border-bottom: 1px solid var(--fg-line);
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .faq-row:first-child {
+      border-top: 1px solid var(--fg-line);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition:
+        max-height 0.26s ease,
+        opacity 0.26s ease,
+        transform 0.26s ease;
+      font-size: 0.8rem;
+      color: var(--fg-soft);
+    }
+    .faq-answer.open {
+      max-height: 260px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .faq-symbol {
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .faq-row.open .faq-symbol {
+      transform: rotate(45deg);
+      color: #22c55e;
+    }
+
+    /* INPUTS */
+    .fg-input {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: rgba(255, 255, 255, 0.96);
+      padding: 0.6rem 0.8rem;
+      font-size: 0.86rem;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease,
+        background 0.18s ease;
+    }
+    .fg-input:focus {
+      outline: none;
+      border-color: var(--fg-green);
+      background: #ffffff;
+      box-shadow:
+        0 0 0 1px rgba(69, 255, 157, 0.6),
+        0 12px 28px rgba(15, 23, 42, 0.25);
+    }
+    textarea.fg-input { min-height: 120px; resize: vertical; }
+
+    footer {
+      border-top: 1px solid rgba(209, 213, 219, 0.85);
+      background: rgba(250, 252, 255, 0.96);
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="fixed top-0 inset-x-0 z-30">
+    <div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="logo-square">FG</div>
+        <div class="leading-tight">
+          <p class="brand-main">FlowGrid Plumbing &amp; Heating</p>
+          <p class="brand-sub">Trusted trades · Wiltshire</p>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-7">
+        <a href="#top" class="nav-link">Home</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <button
+        id="hamburger"
+        class="hamburger md:hidden flex flex-col gap-1.5 items-end">
+        <span class="hamburger-line line1"></span>
+        <span class="hamburger-line line2"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <aside class="menu-panel" id="menuPanel">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center text-[0.6rem] font-semibold text-sky-300 tracking-[0.14em]">
+          FG
+        </div>
+        <span class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-300">
+          FlowGrid
+        </span>
+      </div>
+      <button id="menuClose" class="text-[0.7rem] tracking-[0.18em] uppercase text-slate-300">
+        Close
+      </button>
+    </div>
+
+    <div class="flex-1 flex flex-col gap-2 mt-2">
+      <a href="#top" class="menu-link">Home</a>
+      <a href="#services" class="menu-link">Services</a>
+      <a href="#process" class="menu-link">Process</a>
+      <a href="#pricing" class="menu-link">Pricing</a>
+      <a href="#faq" class="menu-link">FAQ</a>
+      <a href="#contact" class="menu-link">Contact</a>
+    </div>
+  </aside>
+
+  <main id="top" class="pt-24 pb-20 max-w-7xl mx-auto px-5">
+    <!-- HERO (NEW) -->
+    <section class="hero reveal" data-reveal>
+      <div class="hero-inner">
+        <!-- left image placeholder -->
+        <div class="hero-img"></div>
+
+        <!-- center text -->
+        <div class="flex flex-col items-center text-center gap-5">
+          <div class="space-y-2 max-w-xl">
+            <p class="section-label">Plumbing · Heating · Bathrooms</p>
+            <h1 class="hero-heading">
+              Reliable plumbing without the stress.
+            </h1>
+            <p class="hero-sub">
+              Leaks fixed. Boilers serviced. Bathrooms upgraded properly — with clear pricing and tidy engineers every time.
+            </p>
+          </div>
+
+          <button
+            class="btn-main"
+            onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">
+            View services
+          </button>
+
+          <div class="hero-stats">
+            <span><strong>24/7</strong> emergency cover</span>
+            <span><strong>10+ yrs</strong> experience</span>
+            <span><strong>4.8★</strong> average rating</span>
+          </div>
+        </div>
+
+        <!-- right image placeholder -->
+        <div class="hero-img"></div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="mt-14 reveal" data-reveal>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-4">
+        <div>
+          <p class="section-label">Services</p>
+          <div class="section-title-wrap mt-2">
+            <div class="section-glow" data-glow></div>
+            <h2 class="section-title">Everything from leaks to full refits.</h2>
+            <div class="section-underline" data-underline></div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 max-w-sm">
+          Straightforward services for homeowners and landlords. No jargon, just work that’s done properly.
+        </p>
+      </div>
+
+      <div class="space-y-0">
+        <div class="service-row">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p class="service-tag mb-1">Emergencies</p>
+              <p class="font-semibold mb-1">Leaks & burst pipes</p>
+              <p class="text-sm text-slate-600 max-w-xl">
+                Fast shut-off, diagnosis and repair for leaks, bursts and blockages — with photos logged for insurance if needed.
+              </p>
+            </div>
+            <p class="text-xs text-slate-500">
+              Same-day appointments where possible.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-row">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p class="service-tag mb-1">Heating</p>
+              <p class="font-semibold mb-1">Boilers & radiators</p>
+              <p class="text-sm text-slate-600 max-w-xl">
+                Servicing, diagnostics and installs, plus radiator balancing so every room actually warms up.
+              </p>
+            </div>
+            <p class="text-xs text-slate-500">
+              Gas Safe engineers.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-row">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p class="service-tag mb-1">Installations</p>
+              <p class="font-semibold mb-1">Bathrooms & upgrades</p>
+              <p class="text-sm text-slate-600 max-w-xl">
+                Modern bathrooms, showers and upgrades with pipework, fixtures and finishing handled in one plan.
+              </p>
+            </div>
+            <p class="text-xs text-slate-500">
+              Partial refresh or full refit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="mt-16 reveal" data-reveal>
+      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
+        <div>
+          <p class="section-label">Process</p>
+          <div class="section-title-wrap mt-2">
+            <div class="section-glow" data-glow></div>
+            <h2 class="section-title">Four simple steps from call to sign-off.</h2>
+            <div class="section-underline" data-underline></div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 max-w-sm">
+          Same structure whether it’s a late-night leak or a planned boiler swap, so you always know what’s happening.
+        </p>
+      </div>
+
+      <div class="timeline text-slate-700">
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 1 · Quick call & photos</p>
+          <p class="font-semibold">Tell us what’s going on.</p>
+          <p class="mt-1 text-sm text-slate-600 max-w-2xl">
+            A short call and a few clear photos let us give realistic options and a price range before we arrive.
+          </p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 2 · Arrival window</p>
+          <p class="font-semibold">We agree a tight time slot.</p>
+          <p class="mt-1 text-sm text-slate-600 max-w-2xl">
+            No vague all-day windows. We share who’s coming and let you know if traffic or emergencies nudge the time.
+          </p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 3 · Plan & price</p>
+          <p class="font-semibold">We confirm everything on site.</p>
+          <p class="mt-1 text-sm text-slate-600 max-w-2xl">
+            Once we’ve seen it in person we confirm the work and final price before any big changes happen.
+          </p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-dot"></div>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-1">Step 4 · Work, tidy, paperwork</p>
+          <p class="font-semibold">Issue fixed, home left tidy.</p>
+          <p class="mt-1 text-sm text-slate-600 max-w-2xl">
+            We do the job, test everything properly, clean up and send certificates, photos and invoices in one neat email.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="mt-16 reveal" data-reveal>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-6">
+        <div>
+          <p class="section-label">Pricing</p>
+          <div class="section-title-wrap mt-2">
+            <div class="section-glow" data-glow></div>
+            <h2 class="section-title">Honest ranges instead of tiny “from £29” lines.</h2>
+            <div class="section-underline" data-underline></div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-600 max-w-sm">
+          These bands are based on real Wiltshire jobs, not made-up lead-gen prices.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 text-sm text-slate-800">
+        <div>
+          <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
+            Most common call-out
+          </p>
+          <p class="font-semibold text-lg">Leak & blockage visit</p>
+          <p class="text-3xl font-semibold mt-2">£95–£145</p>
+          <p class="text-[0.75rem] text-slate-500 mt-1">Typical final invoice</p>
+          <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
+            <li>• Includes up to first hour on site</li>
+            <li>• Diagnostics and repair where possible</li>
+            <li>• Photos and notes for insurance</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
+            Annual essential
+          </p>
+          <p class="font-semibold text-lg">Boiler service & safety check</p>
+          <p class="text-3xl font-semibold mt-2">£80–£120</p>
+          <p class="text-[0.75rem] text-slate-500 mt-1">Per boiler</p>
+          <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
+            <li>• Full service and flue check</li>
+            <li>• Safety certificate where needed</li>
+            <li>• Digital paperwork stored neatly</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-[0.25em] text-slate-400 mb-2">
+            Planned projects
+          </p>
+          <p class="font-semibold text-lg">New boiler & system upgrade</p>
+          <p class="text-3xl font-semibold mt-2">£1,900+</p>
+          <p class="text-[0.75rem] text-slate-500 mt-1">All-in estimate</p>
+          <ul class="mt-3 space-y-1.5 text-[0.8rem] text-slate-700">
+            <li>• A-rated boiler with warranty</li>
+            <li>• Smart controls & radiator check</li>
+            <li>• Clear staged payments, no pressure selling</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="mt-16 reveal" data-reveal>
+      <div class="mb-5">
+        <p class="section-label">FAQ</p>
+        <div class="section-title-wrap mt-2">
+          <div class="section-glow" data-glow></div>
+          <h2 class="section-title">Questions people usually ask before they book.</h2>
+          <div class="section-underline" data-underline></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="faq-row">
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-semibold">Do you charge a call-out fee?</p>
+            <span class="faq-symbol text-xl text-slate-500">+</span>
+          </div>
+          <div class="faq-answer mt-2">
+            <p>
+              Sometimes. If we do, we’ll say so up front and explain exactly what it covers. For most local leak jobs we fold it into the first hour on site.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-semibold">Are you insured and Gas Safe registered?</p>
+            <span class="faq-symbol text-xl text-slate-500">+</span>
+          </div>
+          <div class="faq-answer mt-2">
+            <p>
+              Yes. Our engineers are Gas Safe registered for gas work and we carry full public liability insurance. You’ll get certificates after every relevant job.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-semibold">How quickly can you normally come out?</p>
+            <span class="faq-symbol text-xl text-slate-500">+</span>
+          </div>
+          <div class="faq-answer mt-2">
+            <p>
+              For emergencies we aim for same-day visits where possible. For planned work we agree dates in writing and keep you updated if anything shifts.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <div class="flex items-center justify-between gap-4">
+            <p class="font-semibold">What areas do you cover?</p>
+            <span class="faq-symbol text-xl text-slate-500">+</span>
+          </div>
+          <div class="faq-answer mt-2">
+            <p>
+              We’re based in Wiltshire and usually work within roughly a 30–35 minute drive. If you’re not sure, send your postcode and we’ll confirm.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="mt-16 reveal" data-reveal>
+      <div class="grid lg:grid-cols-[1.1fr,1fr] gap-10 items-start">
+        <div>
+          <p class="section-label">Contact</p>
+          <div class="section-title-wrap mt-2">
+            <div class="section-glow" data-glow></div>
+            <h2 class="section-title">Tell us what’s happening and we’ll outline options.</h2>
+            <div class="section-underline" data-underline></div>
+          </div>
+          <p class="mt-3 text-sm text-slate-600 max-w-xl">
+            A quick summary, your postcode and some photos if you have them are enough to get started. We’ll come back with realistic time slots and price bands.
+          </p>
+
+          <div class="mt-5 space-y-1 text-sm text-slate-700">
+            <p><span class="font-semibold">Phone:</span> 01234 445566</p>
+            <p><span class="font-semibold">Email:</span> hello@flowgridplumbing.co.uk</p>
+            <p><span class="font-semibold">Area:</span> Wiltshire and nearby towns</p>
+          </div>
+        </div>
+
+        <div class="border border-slate-200 rounded-2xl bg-white/95 backdrop-blur-md px-5 py-6 shadow-[0_18px_50px_rgba(15,23,42,0.25)]">
+          <form class="space-y-3 text-xs">
+            <div class="grid md:grid-cols-2 gap-3">
+              <div>
+                <label class="block mb-1 text-slate-600">Name</label>
+                <input class="fg-input" placeholder="Full name" />
+              </div>
+              <div>
+                <label class="block mb-1 text-slate-600">Phone</label>
+                <input class="fg-input" placeholder="Mobile number" />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-3">
+              <div>
+                <label class="block mb-1 text-slate-600">Email</label>
+                <input class="fg-input" placeholder="you@example.com" />
+              </div>
+              <div>
+                <label class="block mb-1 text-slate-600">Postcode</label>
+                <input class="fg-input" placeholder="e.g. SN13" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block mb-1 text-slate-600">What’s happening?</label>
+              <textarea class="fg-input" placeholder="Short description of the issue..."></textarea>
+            </div>
+
+            <button type="button" class="btn-main w-full mt-2">
+              Send enquiry
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-10">
+    <div class="max-w-7xl mx-auto px-5 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
+      <p>© 2025 FlowGrid Plumbing &amp; Heating. All rights reserved.</p>
+      <p>Preview layout only — swap in your own brand, copy and photos.</p>
+    </div>
+  </footer>
+
+  <script>
+    // header shadow
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 18) header.classList.add("scrolled");
+      else header.classList.remove("scrolled");
+    });
+
+    // mobile menu
+    const hamburger = document.getElementById("hamburger");
+    const menuPanel = document.getElementById("menuPanel");
+    const menuClose = document.getElementById("menuClose");
+    const menuLinks = document.querySelectorAll(".menu-link");
+
+    function toggleMenu(open) {
+      if (open) {
+        hamburger.classList.add("open");
+        menuPanel.classList.add("open");
+      } else {
+        hamburger.classList.remove("open");
+        menuPanel.classList.remove("open");
+      }
+    }
+
+    hamburger.addEventListener("click", () => toggleMenu(!menuPanel.classList.contains("open")));
+    menuClose.addEventListener("click", () => toggleMenu(false));
+    menuLinks.forEach(link => link.addEventListener("click", () => toggleMenu(false)));
+
+    // reveal + underline / glow on scroll
+    const revealEls = document.querySelectorAll("[data-reveal]");
+    const underlineEls = document.querySelectorAll("[data-underline]");
+    const glowEls = document.querySelectorAll("[data-glow]");
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          el.classList.add("visible");
+
+          if (el.querySelector("[data-underline]")) {
+            el.querySelectorAll("[data-underline]").forEach(u => u.classList.add("visible"));
+          }
+          if (el.querySelector("[data-glow]")) {
+            el.querySelectorAll("[data-glow]").forEach(g => g.classList.add("visible"));
+          }
+
+          observer.unobserve(el);
+        });
+      },
+      { threshold: 0.22 }
+    );
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    document.querySelectorAll(".faq-row").forEach(row => {
+      row.addEventListener("click", () => {
+        const answer = row.querySelector(".faq-answer");
+        const open = answer.classList.contains("open");
+
+        document.querySelectorAll(".faq-answer").forEach(a => a.classList.remove("open"));
+        document.querySelectorAll(".faq-row").forEach(r => r.classList.remove("open"));
+
+        if (!open) {
+          answer.classList.add("open");
+          row.classList.add("open");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
